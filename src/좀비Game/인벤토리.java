@@ -2,6 +2,7 @@ package 좀비Game;
 
 public class 인벤토리  {
 
+	
 	아이템[] 아이템들;
 	int size;
 

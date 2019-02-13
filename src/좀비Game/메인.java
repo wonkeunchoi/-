@@ -13,7 +13,7 @@ public class 메인 {
 	   인벤토리[2] = "뱀의독";
 	   인벤토리[3] = "멧돼지의_송곳니";
 	   */
-		
+	    	인벤토리 inven = new 인벤토리();
 		쓰레드_로딩중 로딩중 = new 쓰레드_로딩중();
 		파일럿 P = new 파일럿("파일럿",100,30,40,0,0);
 		// HP,Attack,Speed,Skill
@@ -130,7 +130,7 @@ public class 메인 {
 			// 좀비를 만나서 싸우는 부분
 			System.out.println("==============================================================================");
 			System.out.println("||                                                                          || ");
-			System.out.println("||  1.싸운다 | 2.도망친다 | 3.남성좀비의 정보를 확인한다. | 4. 무기 확인하기  | 4.인벤토리  || ");
+			System.out.println("||  1.싸운다 | 2.도망친다 | 3.남성좀비의 정보를 확인한다. | 4. 무기 확인하기  | 5.인벤토리  || ");
 			System.out.println("||                                                                          || "); 
 			System.out.println("==============================================================================");
 
@@ -146,6 +146,7 @@ public class 메인 {
 
 				new 무기(20);		    
 				권총.총알 -= 1; 
+				System.out.println("총알개수: "+ 권총.총알);
 
 				System.out.println();
 				권총소리.intro5Music.close();
@@ -317,8 +318,11 @@ public class 메인 {
 									System.out.println("1.예 2.아니오");
 									int  아이템 = scanner.nextInt();
 									if ( 아이템 == 1) {
+										
+									 
+										아이템 [] 인벤토리 = {노루의_뿔};
 										System.out.println("노루의 뿔을 인벤토리에 넣으셨습니다");  //@@@@@@@@@@@@@@@@@@@ 인벤토리 @@@@@@@@@@@@@@@@@
-									     new 인벤토리();
+									     
 									   // System.out.println(인벤토리.length);
 										
 									}
@@ -490,7 +494,8 @@ public class 메인 {
 									System.out.println("인벤토리에 넣으시겠습니까?");
 									System.out.println("1.예 2.아니오");
 									int 아이템 = scanner.nextInt();
-									if ( 아이템 == 1) {										
+									if ( 아이템 == 1) {	
+										아이템 [] 인벤토리 = {사슴고기};
 										System.out.println("사슴고기를 인벤토리에 넣으셨습니다");  //@@@@@@@@@@@@@@@@@@@ 인벤토리 @@@@@@@@@@@@@@@@@
 									    	
 										//사슴.인벤토리_아이템("사슴고기");
@@ -562,7 +567,10 @@ public class 메인 {
 			권총장전.intro8Music.close();
 			}
 				else if (i1 == 5) {
-					
+					new 인벤토리();
+			   inven.아이템_보기();
+				//	인벤토리 보기 = new 인벤토리();
+				//	보기.아이템_보기();
 				}
 			  /* for ( int i = 0; i < 인벤토리.length;i++) {
 				   String 아이템 = 인벤토리[i];
