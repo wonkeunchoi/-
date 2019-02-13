@@ -12,8 +12,9 @@ public class 인벤토리  {
 	}
 
 	public void 아이템_보기() {	
-		for(int i = 0;i < 아이템들.length; i++) {
-			if(아이템들[i] == null) {
+		
+		for(int i = 0;i < size; i++) {
+			if(아이템들[i] != null) {
 				System.out.println("["+i+1+"]" + 아이템들[i].name+"");
 				return;
 			}

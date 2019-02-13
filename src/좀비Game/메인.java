@@ -13,7 +13,7 @@ public class 메인 {
 	   인벤토리[2] = "뱀의독";
 	   인벤토리[3] = "멧돼지의_송곳니";
 	   */
-	    	인벤토리 inven = new 인벤토리();
+	    	
 		쓰레드_로딩중 로딩중 = new 쓰레드_로딩중();
 		파일럿 P = new 파일럿("파일럿",100,30,40,0,0);
 		// HP,Attack,Speed,Skill
@@ -27,7 +27,7 @@ public class 메인 {
 
 		//아이템 =================================
 
-		아이템 사슴고기 = new 아이템("사슴고기",40,100);
+		아이템 사슴고기 = new 아이템("사슴고기",0,0);
 		아이템 노루의_뿔 = new 아이템("노루의_뿔",0,0);
 		아이템 돼지고기 = new 아이템("돼지고기",0,0);
 		아이템 뱀독  =new 아이템 ("뱀독",0,0);
@@ -320,7 +320,7 @@ public class 메인 {
 									if ( 아이템 == 1) {
 										
 									 
-										아이템 [] 인벤토리 = {노루의_뿔};
+									    P.inven.아이템넣기(노루의_뿔);
 										System.out.println("노루의 뿔을 인벤토리에 넣으셨습니다");  //@@@@@@@@@@@@@@@@@@@ 인벤토리 @@@@@@@@@@@@@@@@@
 									     
 									   // System.out.println(인벤토리.length);
@@ -440,7 +440,12 @@ public class 메인 {
 								System.out.println();
 
 							}
-							if ( ! 사슴.생존()) break;
+							if ( ! 사슴.생존())  {
+								아이템 item_tmp = 사슴.아이템드랍();
+								P.inven.아이템넣기(item_tmp);
+								System.out.println("아이템 획득:" + item_tmp.name);
+								break;
+							}
 
 							System.out.println("!!!!!!!!Warning!!!!!!!!!!");
 							System.out.println();
@@ -495,7 +500,7 @@ public class 메인 {
 									System.out.println("1.예 2.아니오");
 									int 아이템 = scanner.nextInt();
 									if ( 아이템 == 1) {	
-										아이템 [] 인벤토리 = {사슴고기};
+									     P.inven.아이템넣기(사슴고기);
 										System.out.println("사슴고기를 인벤토리에 넣으셨습니다");  //@@@@@@@@@@@@@@@@@@@ 인벤토리 @@@@@@@@@@@@@@@@@
 									    	
 										//사슴.인벤토리_아이템("사슴고기");
@@ -567,10 +572,12 @@ public class 메인 {
 			권총장전.intro8Music.close();
 			}
 				else if (i1 == 5) {
-					new 인벤토리();
-			   inven.아이템_보기();
+					
+			   P.inven.아이템_보기();
+			   
 				//	인벤토리 보기 = new 인벤토리();
 				//	보기.아이템_보기();
+			   
 				}
 			  /* for ( int i = 0; i < 인벤토리.length;i++) {
 				   String 아이템 = 인벤토리[i];
@@ -606,48 +613,75 @@ public class 메인 {
 			System.out.println();
 			System.out.println("이동중에 여성좀비에게 발각 되셨습니다!...");
 			
-			while(G.HP > 0 && P.HP > 0) { // 파일럿이랑 좀비가 살아있는 한 계속 반복한다.
+			if(Z.HP > 0) {
 				
-				// 좀비를 만나서 싸우는 부분
-				System.out.println("##########1.싸운다 2.도망친다 3.여성좀비의 정보를 확인한다.###########");
-				int k = scanner.nextInt();
+				musicplayer 싸우기 = new musicplayer();
+				싸우기.musicplayer6();
+				musicplayer 배틀 = new musicplayer();
+				배틀.musicplayer7();
+			
 
-				if( k == 1) {			
-					System.out.println("-------여성좀비와의 전투를 시작합니다 -----");				
-					System.out.println();			
+			while(P.HP > 0 && Z.HP > 0) {
+				// 파일럿이랑 좀비가 살아있는 한 계속 반복한다.
+				// 좀비를 만나서 싸우는 부분
+				System.out.println("==============================================================================");
+				System.out.println("||                                                                          || ");
+				System.out.println("||  1.싸운다 | 2.도망친다 | 3.남성좀비의 정보를 확인한다. | 4. 무기 확인하기  | 5.인벤토리  || ");
+				System.out.println("||                                                                          || "); 
+				System.out.println("==============================================================================");
+
+				int i1 = scanner.nextInt();
+
+				if( i1 == 1) {	
+
+					musicplayer 권총소리 = new musicplayer();
+					권총소리.musicplayer5();
+					System.out.println("-------남성좀비와의 전투를 시작합니다 -----");				
+					System.out.println();					    
 					System.out.println("파일럿이 좀비를 공격합니다.");
+
+					new 무기(20);		    
+					권총.총알 -= 1; 
+					System.out.println("총알개수: "+ 권총.총알);
+
 					System.out.println();
-					boolean damaged = G.be_damaged(P.Attack);
-					
-					if (G.HP < 0) {
-						G.HP = 0;
+					권총소리.intro5Music.close();
+					if (권총.총알 < 0) {
+						권총.총알 = 0;
 					}
-					
+
+					boolean damaged = Z.be_damaged(P.Attack);
+
+					if (Z.HP < 0) {
+						Z.HP = 0;
+					}
+
 					if(damaged) {
 						System.out.println();
 						System.out.println("=========================");
+						System.out.println("남성좀비가 데미지를 입었습니다.");	
+						Z.HP();			
 						System.out.println();
-						System.out.println("여성좀비가 데미지를 입었습니다.");	
-						G.HP();									
-						System.out.println();
+						
 					}
 					else {
 						System.out.println();
 						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 						System.out.println();
-						System.out.println("여성좀비가 공격을 회피하였습니다.");
-						G.HP();
+						System.out.println("남성좀비가 공격을 회피하였습니다.");
+						Z.HP();
 						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 						System.out.println();
 					}
-					if (G.HP == 0) break;
+					
+					if (Z.HP == 0) break;
 					// 좀비가 공격을 합니다.
 					System.out.println("!!!!!!!!Warning!!!!!!!!!!");
 					System.out.println();
-					System.out.println("여성좀비가 파일럿을 공격합니다!!.");	
-					G.은신();
+					System.out.println("남성좀비가 파일럿을 공격합니다!!.");	
+					Z.분노();
 
-					P.HP = P.HP - G.Attack;
+					P.HP = P.HP - Z.Attack;
 					if(P.HP < 0) {
 						P.HP = 0;
 					}
@@ -656,80 +690,427 @@ public class 메인 {
 					System.out.println();
 
 				}
-				else if (k == 2){
-
+				else if (i1 == 2){
+					 싸우기.intro6Music.close();
 					System.out.println("숲으로 도망갑니다..체력회복을 위해 먹잇감을 탐색합니다..");
+
 					int val1 = new Random().nextInt(4); // 확률적으로 0과 1중에 하나가 나옴
 
-					if(val1 ==  0) { 
-						System.out.println("블루베리를 발견하였습니다.(체력회복 + 20)");
-						P.HP = P.HP + 20;
-						if (P.HP > 100) {
-							P.HP = 100;						
-						}
+					if(val1 ==  0) {  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@노루노루노루노루노루노루 
+
+						System.out.println();
+						System.out.println("노루를 발견하셨습니다");
+						노루.정보();
+
+						System.out.println("@@@@@@@1.사냥한다 2.되돌아가기 @@@@@@@");
+						int 숲 = scanner.nextInt();
+
+						if ( 숲 == 1) {  
+
+							while (P.생존() && 노루.생존()) {
+								System.out.println();
+
+								System.out.println();			
+								System.out.println("파일럿이 노루를 공격합니다.");
+								System.out.println();					
+
+								Thread nthread = new Thread(); {
+									for(int i = 3; i > 0; i--) {
+										System.out.println("노루 <<<<<< 파일럿 공격!");
+
+										try {
+
+											Thread.sleep(i * 300);
+										} 
+										catch (InterruptedException e) { }
+									}
+								}
+
+								boolean damaged = 노루.be_damaged(P.Attack);
+								if (노루.HP < 0) {
+									노루.HP = 0;
+
+								}
+
+								if(damaged) {
+									System.out.println();
+									System.out.println("=========================");
+									System.out.println("노루가 데미지를 입었습니다.");	
+									노루.HP();			
+									System.out.println();
+
+								}
+
+								else {
+									System.out.println();
+									System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+									System.out.println();
+									System.out.println("노루가 공격을 회피하였습니다.");
+									노루.HP();
+									System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+									System.out.println();
+									System.out.println();
+									
+								}
+								if ( ! 노루.생존()) {
+									아이템 item_tmp = 노루.아이템드랍();
+									P.inven.아이템넣기(item_tmp);
+									System.out.println("아이템 획득:" + item_tmp.name);
+									break;
+								}
+
+								System.out.println("!!!!!!!!Warning!!!!!!!!!!");
+								System.out.println();
+								System.out.println("노루가 파일럿을 공격합니다!!.");	
+
+								Thread nthread1 = new Thread(); {
+									for(int i = 3; i > 0; i--) {
+										System.out.println("노루 공격! >>>>>>> 파일럿");
+
+										try {
+
+											Thread.sleep(i * 100);
+										} 
+										catch (InterruptedException e) { }
+									}
+								}																						    
+
+								P.HP = P.HP - 노루.Attack;
+								if(P.HP < 0) {
+									P.HP = 0;
+								}
+								P.HP();
+								System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+								System.out.println();
+
+							}
+
+							if( ! P.생존()) {
+								System.out.println("파일럿이 사망하였습니다.");
+								System.out.println("게임을 종료합니다..");
+							}
+
+							else if ( P.생존()) {
+								System.out.println("@@@@@@@@@ 노루를 잡았습니다 @@@@@@@@");
+								System.out.println();
+
+								int val3 = new Random().nextInt(1);  // 2로 수정할것 -------------------------------------!!
+
+								Thread nthread = new Thread(); {
+									for(int i = 3; i > 0; i--) {
+										System.out.println(+i+" 노루를 채집중... ");
+
+										try {
+
+											Thread.sleep(i * 500);
+										} catch (InterruptedException e) { }
+
+									}
+									if(val3 == 0) {
+										System.out.println();
+										노루.아이템드랍();
+										System.out.println();
+										System.out.println("인벤토리에 넣으시겠습니까?");
+										System.out.println("1.예 2.아니오");
+										int  아이템 = scanner.nextInt();
+										if ( 아이템 == 1) {
+											
+										P.inven.아이템넣기(노루의_뿔);
+											System.out.println("노루의 뿔을 인벤토리에 넣으셨습니다");  //@@@@@@@@@@@@@@@@@@@ 인벤토리 @@@@@@@@@@@@@@@@@
+										     
+										   // System.out.println(인벤토리.length);
+											
+										}
+
+										else if ( 아이템 == 2) {
+											System.out.println();
+											System.out.println("좀비의 눈을 피해 이동합니다..");
+											Thread nthread1 = new Thread(); {
+												for(int i = 3; i > 0; i--) {
+													System.out.println(+i+"이동중... ");
+
+													try {
+
+														Thread.sleep(i * 400);
+													} catch (InterruptedException e) { }											
+												}
+												System.out.println("남성좀비와 마주쳤습니다!!");
+											}	
+										}
+									}
+									else if(val3 == 1) {
+										System.out.println("아무것도 얻지 못하였습니다...");
+										System.out.println();
+										System.out.println("좀비의 눈을 피해 이동합니다..");
+										Thread nthread1 = new Thread(); {
+											for(int i = 3; i > 0; i--) {
+												System.out.println(+i+"이동중... ");
+
+												try {
+
+													Thread.sleep(i * 400);
+												}
+												catch (InterruptedException e) { }
+											}
+											System.out.println();
+											System.out.println("남성좀비와 마주쳤습니다!!");
+										}				
+									}									
+								}
+
+								노루.HP = 60; // 노루 다시 부활.
+							}					
+						}					
+						else if ( 숲 == 2) 
+						scanner.nextLine();
+						싸우기.musicplayer6();
+						continue;
 					}
 					else if (val1 == 1) {
-						System.out.println();
-						System.out.println("아무것도 발견하지 못하였습니다..");
-						System.out.println();
-
-					}
-					else if (val1 == 2) {
-						System.out.println("산삼을 발견하였습니다.(체력회복 + 20, 공격력 + 15 ? 공격력은 55가 최대입니다.");
+						System.out.println("산삼을 발견하였습니다.(체력회복 + 20, 공격력 + 10  공격력은 50가 최대입니다.");
 						P.HP = P.HP + 20;
-						P.Attack = P.Attack + 15;
-						if (P.Attack > 55) {
-							P.Attack = 55;
+						P.Attack = P.Attack + 10;
+						if (P.Attack > 50) {
+							P.Attack = 50;
 						}
 						if (P.HP > 100) {
 							P.HP = 100;						
 						}
 					}
-					else if (val1 == 3) {
-						System.out.println("사슴을 발견하였습니다!");
-						System.out.println("사슴을 포획합니다!");
-						int val3 = new Random().nextInt(3);
-
-						Thread nthread = new Thread(); {
-							for(int i = 3; i > 0; i--) {
-								System.out.println(+i+"초 사슴을 포획중.. ");
-
-								try {
-									Thread.sleep(i * 100);
-								}
-								catch (InterruptedException e) { }
-							}
-							if(val3 == 0) {
-								System.out.println();
-								System.out.println("사슴을 포획하는데 성공하셨습니다!");
-								System.out.println("사슴고기 획득 (+HP50)");
-								P.HP = P.HP +50;
-								if (P.HP > 100) {
-									P.HP = 100;
-								}
-							}
-							else if(val3 == 1) {
-								System.out.println("사슴을 포획하는데에 실패하셨습니다..");
-							}
-							else if(val3 == 2) {
-								System.out.println("사슴을 포획하는데에 실패하셨습니다..");
-							}
-						}
+					else if (val1 == 2) {
+						System.out.println();
+						System.out.println("아무것도 발견하지 못하였습니다");
+						System.out.println();
+						
 					}
-					P.HP();
+					else if (val1 == 3) {       // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사슴사슴사슴사슴사슴사슴
+						System.out.println();
+						System.out.println("사슴을 발견하셨습니다");
+						사슴.정보();
+
+						System.out.println("@@@@@@@1.사냥한다 2.되돌아가기 @@@@@@@");
+						int 숲 = scanner.nextInt();
+
+						if ( 숲 == 1) {    
+
+							while (P.생존() && 사슴.생존()) {
+								System.out.println();
+
+								System.out.println();			
+								System.out.println("파일럿이 사슴을 공격합니다.");
+								System.out.println();					
+
+								Thread nthread = new Thread(); {
+									for(int i = 3; i > 0; i--) {
+										System.out.println("사슴 <<<<<< 파일럿 공격!");
+
+										try {
+
+											Thread.sleep(i * 300);
+										} 
+										catch (InterruptedException e) { }
+									}
+								}
+
+								boolean damaged = 사슴.be_damaged(P.Attack);
+								if (사슴.HP < 0) {
+									사슴.HP = 0;
+
+								}
+
+								if(damaged) {
+									System.out.println();
+									System.out.println("=========================");
+									System.out.println("사슴이 데미지를 입었습니다.");	
+									사슴.HP();			
+									System.out.println();
+
+								}
+
+								else {
+									System.out.println();
+									System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+									System.out.println();
+									System.out.println("사슴이 공격을 회피하였습니다.");
+									사슴.HP();
+									System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+									System.out.println();
+									System.out.println();
+									
+								}
+								if ( ! 사슴.생존()) {
+									아이템 item_tmp = 사슴.아이템드랍();
+									P.inven.아이템넣기(item_tmp);
+									System.out.println("아이템 획득:" + item_tmp.name);
+									break;
+								}
+
+								System.out.println("!!!!!!!!Warning!!!!!!!!!!");
+								System.out.println();
+								System.out.println("사슴이 파일럿을 공격합니다!!.");	
+
+								Thread nthread1 = new Thread(); {
+									for(int i = 3; i > 0; i--) {
+										System.out.println("사슴 공격! >>>>>>> 파일럿");
+
+										try {
+
+											Thread.sleep(i * 100);
+										} 
+										catch (InterruptedException e) { }
+									}
+								}																						    
+
+								P.HP = P.HP - 사슴.Attack;
+								if(P.HP < 0) {
+									P.HP = 0;
+								}
+								P.HP();
+								System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!");
+								System.out.println();
+
+							}
+
+							if( ! P.생존()) {
+								System.out.println("파일럿이 사망하였습니다.");
+								System.out.println("게임을 종료합니다..");
+							}
+
+							else if ( P.생존()) {
+								System.out.println("@@@@@@@@@ 사슴을 잡았습니다 @@@@@@@@");
+								System.out.println();
+
+								int val3 = new Random().nextInt(1);  // 2로 수정할것 -------------------------------------!!
+
+								Thread nthread = new Thread(); {
+									for(int i = 3; i > 0; i--) {
+										System.out.println(+i+" 사슴을 채집중... ");
+
+										try {
+
+											Thread.sleep(i * 500);
+										} catch (InterruptedException e) { }
+
+									}
+									if(val3 == 0) {
+										System.out.println();
+										사슴.아이템드랍();
+										System.out.println();
+										System.out.println("인벤토리에 넣으시겠습니까?");
+										System.out.println("1.예 2.아니오");
+										int  아이템 = scanner.nextInt();
+										if ( 아이템 == 1) {
+																					 
+											P.inven.아이템넣기(사슴고기);
+											System.out.println("사슴고기를 인벤토리에 넣으셨습니다");  //@@@@@@@@@@@@@@@@@@@ 인벤토리 @@@@@@@@@@@@@@@@@
+										     
+										   // System.out.println(인벤토리.length);
+											
+										}
+
+										else if (아이템 == 2) {
+											System.out.println();
+											System.out.println("좀비의 눈을 피해 이동합니다..");
+											Thread nthread1 = new Thread(); {
+												for(int i = 3; i > 0; i--) {
+													System.out.println(+i+"이동중... ");
+
+													try {
+														Thread.sleep(i * 400);
+													}
+													catch (InterruptedException e) { }											
+												}
+												
+												System.out.println();
+												scanner.nextLine();
+												싸우기.musicplayer6();
+												System.out.println("여성좀비와 마주쳤습니다!!");
+												
+											}	
+										}
+									}
+									
+									else if(val3 == 1) {
+										
+										System.out.println("아무것도 얻지 못하였습니다...");
+										System.out.println();
+										System.out.println("좀비의 눈을 피해 이동합니다..");
+										Thread nthread1 = new Thread(); {
+											for(int i = 3; i > 0; i--) {
+												System.out.println(+i+"이동중... ");
+
+												try {
+													Thread.sleep(i * 400);
+												} 
+												catch (InterruptedException e) { }
+											}
+											
+											System.out.println("여성좀비와 마주쳤습니다!!");
+											scanner.nextLine();
+											싸우기.musicplayer6();
+										}				
+									}									
+								}
+								사슴.HP = 50; // 노루 다시 부활.
+							}
+						}		
+					}
 				}
-				else if (k == 3) {
-					G.information();
+				else if (i1 == 3) {
+					Z.information();
 				}
-			}		
+				else if (i1 == 4) {  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				scanner.nextLine();		
+			    System.out.println();				
+				musicplayer 권총장전 = new musicplayer();
+				권총장전.musicplayer8();
+				System.out.println("Enter을 누르면 정보가 출력됩니다.");
+				new 무기(20);
+				scanner.nextLine();		
+				System.out.println("=========+정보+==========");
+				System.out.println("    총기 : 콜트M1911");
+				System.out.println("   공격력 : 30   ");
+				System.out.println("=========================");
+				System.out.println();
+				권총장전.intro8Music.close();
+				}
+					else if (i1 == 5) {
+						
+				 P.inven.아이템_보기();
+					//	인벤토리 보기 = new 인벤토리();
+					//	보기.아이템_보기();
+					}
+				  /* for ( int i = 0; i < 인벤토리.length;i++) {
+					   String 아이템 = 인벤토리[i];
+					   System.out.println(인벤토리+"");
+				   } */
+				}
+			
+			
+			싸우기.intro6Music.close();
+			배틀.intro7Music.close();
+			}
 			if (G.HP > P.HP) {
 				System.out.println("전투에서 패배하셨습니다..The End..");	
 				System.out.println("게임이 종료됩니다.");
+				
 			}
-			
 			else if (G.HP < P.HP) {
 				System.out.println("!!전투에서 승리하셨습니다!!");		
 				System.out.println();
+				System.out.print("좀비들의 눈을 피해서 대피장소로 이동합니다...");
+				System.out.println();
+
+				Thread bthread1 = new Thread(); { 
+					for(int i = 3; i > 0; i--) {
+						System.out.println(+i+"초 대피장소로 이동중.. ");
+
+						try {
+							Thread.sleep(i * 200);
+						} 
+						catch (InterruptedException e) { }
+					}
+				} 		
 				System.out.println();
 				System.out.println("밤이 되었습니다..");
 				System.out.println("---------------------------------------------------");				
