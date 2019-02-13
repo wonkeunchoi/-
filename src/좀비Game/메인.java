@@ -434,7 +434,7 @@ public class 메인 {
 								System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 								System.out.println();
 								System.out.println("사슴이 공격을 회피하였습니다.");
-								노루.HP();
+								사슴.HP();
 								System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 								System.out.println();
 								System.out.println();
@@ -613,7 +613,7 @@ public class 메인 {
 			System.out.println();
 			System.out.println("이동중에 여성좀비에게 발각 되셨습니다!...");
 			
-			if(Z.HP > 0) {
+			if(G.HP > 0) {
 				
 				musicplayer 싸우기 = new musicplayer();
 				싸우기.musicplayer6();
@@ -621,12 +621,12 @@ public class 메인 {
 				배틀.musicplayer7();
 			
 
-			while(P.HP > 0 && Z.HP > 0) {
+			while(P.HP > 0 && G.HP > 0) {
 				// 파일럿이랑 좀비가 살아있는 한 계속 반복한다.
 				// 좀비를 만나서 싸우는 부분
 				System.out.println("==============================================================================");
 				System.out.println("||                                                                          || ");
-				System.out.println("||  1.싸운다 | 2.도망친다 | 3.남성좀비의 정보를 확인한다. | 4. 무기 확인하기  | 5.인벤토리  || ");
+				System.out.println("||  1.싸운다 | 2.도망친다 | 3.여성좀비의 정보를 확인한다. | 4. 무기 확인하기  | 5.인벤토리  || ");
 				System.out.println("||                                                                          || "); 
 				System.out.println("==============================================================================");
 
@@ -636,7 +636,7 @@ public class 메인 {
 
 					musicplayer 권총소리 = new musicplayer();
 					권총소리.musicplayer5();
-					System.out.println("-------남성좀비와의 전투를 시작합니다 -----");				
+					System.out.println("-------여성좀비와의 전투를 시작합니다 -----");				
 					System.out.println();					    
 					System.out.println("파일럿이 좀비를 공격합니다.");
 
@@ -650,17 +650,18 @@ public class 메인 {
 						권총.총알 = 0;
 					}
 
-					boolean damaged = Z.be_damaged(P.Attack);
+					boolean damaged = G.be_damaged(P.Attack);
 
-					if (Z.HP < 0) {
-						Z.HP = 0;
+					if (G.HP < 0) {
+						G.HP = 0;
 					}
 
 					if(damaged) {
 						System.out.println();
 						System.out.println("=========================");
-						System.out.println("남성좀비가 데미지를 입었습니다.");	
-						Z.HP();			
+						System.out.println("여성좀비가 데미지를 입었습니다.");	
+						G.HP();			
+						System.out.println("=========================");
 						System.out.println();
 						
 					}
@@ -668,20 +669,21 @@ public class 메인 {
 						System.out.println();
 						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 						System.out.println();
-						System.out.println("남성좀비가 공격을 회피하였습니다.");
-						Z.HP();
+						System.out.println("여성좀비가 공격을 회피하였습니다.");
+						G.HP();
 						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 						System.out.println();
 					}
 					
-					if (Z.HP == 0) break;
+					if (G.HP == 0) break;
 					// 좀비가 공격을 합니다.
 					System.out.println("!!!!!!!!Warning!!!!!!!!!!");
-					System.out.println();
-					System.out.println("남성좀비가 파일럿을 공격합니다!!.");	
-					Z.분노();
+					System.out.println("==========================");
+					System.out.println("여성좀비가 파일럿을 공격합니다!!.");	
+					G.은신();
+					System.out.println("==========================");
 
-					P.HP = P.HP - Z.Attack;
+					P.HP = P.HP - G.Attack;
 					if(P.HP < 0) {
 						P.HP = 0;
 					}
@@ -834,7 +836,7 @@ public class 메인 {
 														Thread.sleep(i * 400);
 													} catch (InterruptedException e) { }											
 												}
-												System.out.println("남성좀비와 마주쳤습니다!!");
+												System.out.println("여성좀비와 마주쳤습니다!!");
 											}	
 										}
 									}
@@ -853,7 +855,7 @@ public class 메인 {
 												catch (InterruptedException e) { }
 											}
 											System.out.println();
-											System.out.println("남성좀비와 마주쳤습니다!!");
+											System.out.println("여성좀비와 마주쳤습니다!!");
 										}				
 									}									
 								}
@@ -923,6 +925,7 @@ public class 메인 {
 									System.out.println("=========================");
 									System.out.println("사슴이 데미지를 입었습니다.");	
 									사슴.HP();			
+									System.out.println("=========================");
 									System.out.println();
 
 								}
@@ -948,6 +951,8 @@ public class 메인 {
 								System.out.println("!!!!!!!!Warning!!!!!!!!!!");
 								System.out.println();
 								System.out.println("사슴이 파일럿을 공격합니다!!.");	
+								System.out.println();
+								System.out.println("!!!!!!!!Warning!!!!!!!!!!");
 
 								Thread nthread1 = new Thread(); {
 									for(int i = 3; i > 0; i--) {
